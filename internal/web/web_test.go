@@ -207,12 +207,12 @@ func TestSetPublicURL(t *testing.T) {
 			if tt.input == "" {
 				resp, err := server.Client().Get(server.URL + "/sitemap.xml")
 				require.NoError(t, err)
-				defer resp.Body.Close()
+				defer func() { require.NoError(t, resp.Body.Close()) }()
 				assert.Equal(t, http.StatusNotFound, resp.StatusCode)
 			} else {
 				resp, err := server.Client().Get(server.URL + "/sitemap.xml")
 				require.NoError(t, err)
-				defer resp.Body.Close()
+				defer func() { require.NoError(t, resp.Body.Close()) }()
 				require.Equal(t, http.StatusOK, resp.StatusCode)
 			}
 		})
